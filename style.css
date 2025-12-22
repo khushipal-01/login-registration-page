@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 350px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 0.8s ease;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.input-box {
+  position: relative;
+  margin: 15px 0;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+}
+
+#togglePass {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #00c6ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #009fe3;
+}
+
+.toggle-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.toggle-text span {
+  color: #ffdd57;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#message {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
