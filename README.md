@@ -14,7 +14,7 @@ A modern, animated, and interactive login & registration system built using **HT
 - CSS
 - JavaScript
 ## screenshot
-page!(https://github.com/khushipal-01/login-registration-page/blob/main/Screenshot%202026-01-12%20121242.png).
+[page]!(https://github.com/khushipal-01/login-registration-page/blob/main/Screenshot%202026-01-12%20121242.png).
 
 ## 👩‍💻 Author
 Khushi Pal
