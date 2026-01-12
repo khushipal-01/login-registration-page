@@ -2,8 +2,147 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login & Register</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 350px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      text-align: center;
+      color: #fff;
+      animation: fadeIn 0.8s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .input-box {
+      position: relative;
+      margin: 15px 0;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    #togglePass {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 8px;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00c6ff;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #009fe3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 198, 255, 0.4);
+    }
+
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .toggle-text {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .toggle-text span {
+      color: #ffdd57;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .toggle-text span:hover {
+      color: #ffd700;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 20px;
+      font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -19,6 +158,11 @@
     <span id="togglePass">👁️</span>
   </div>
 
+  <div class="checkbox-container">
+    <input type="checkbox" id="agree">
+    <label for="agree">I agree to terms & conditions</label>
+  </div>
+
   <button id="submitBtn">Login</button>
 
   <p id="message"></p>
@@ -29,6 +173,106 @@
   </p>
 </div>
 
-<script src="script.js"></script>
+<script>
+  let isLogin = true;
+
+  const formTitle = document.getElementById("formTitle");
+  const toggleForm = document.getElementById("toggleForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const message = document.getElementById("message");
+  const password = document.getElementById("password");
+  const togglePass = document.getElementById("togglePass");
+  const agreeCheckbox = document.getElementById("agree");
+  const usernameInput = document.getElementById("username");
+
+  // Toggle between Login and Register
+  toggleForm.addEventListener("click", () => {
+    isLogin = !isLogin;
+
+    formTitle.textContent = isLogin ? "Login" : "Register";
+    submitBtn.textContent = isLogin ? "Login" : "Register";
+    toggleForm.textContent = isLogin ? "Register" : "Login";
+    
+    const toggleText = document.querySelector(".toggle-text");
+    toggleText.childNodes[0].textContent = isLogin 
+      ? "Don't have an account? " 
+      : "Already have an account? ";
+    
+    message.textContent = "";
+    
+    // Clear inputs
+    usernameInput.value = "";
+    password.value = "";
+    agreeCheckbox.checked = false;
+  });
+
+  // Toggle password visibility
+  togglePass.addEventListener("click", () => {
+    if (password.type === "password") {
+      password.type = "text";
+      togglePass.textContent = "🙈";
+    } else {
+      password.type = "password";
+      togglePass.textContent = "👁️";
+    }
+  });
+
+  // Submit button handler
+  submitBtn.addEventListener("click", () => {
+    const username = usernameInput.value.trim();
+    const pass = password.value;
+
+    // Validation
+    if (username === "" || pass === "") {
+      message.style.color = "#ffdd57";
+      message.textContent = "⚠️ All fields are required!";
+      return;
+    }
+
+    if (pass.length < 6) {
+      message.style.color = "#ff9800";
+      message.textContent = "⚠️ Password must be at least 6 characters!";
+      return;
+    }
+
+    if (!agreeCheckbox.checked) {
+      message.style.color = "#ffdd57";
+      message.textContent = "⚠️ Please agree to terms & conditions!";
+      return;
+    }
+
+    // Processing
+    submitBtn.textContent = "Processing...";
+    submitBtn.disabled = true;
+
+    setTimeout(() => {
+      message.style.color = "#00ff9d";
+      message.textContent = isLogin
+        ? "✅ Login successful!"
+        : "🎉 Registration successful!";
+
+      submitBtn.textContent = isLogin ? "Login" : "Register";
+      submitBtn.disabled = false;
+
+      // Clear form after success
+      setTimeout(() => {
+        usernameInput.value = "";
+        password.value = "";
+        agreeCheckbox.checked = false;
+        message.textContent = "";
+      }, 2000);
+    }, 1500);
+  });
+
+  // Enter key support
+  [usernameInput, password].forEach(input => {
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        submitBtn.click();
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
